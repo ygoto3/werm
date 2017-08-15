@@ -1,0 +1,34 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "react",
+    "import",
+    "node",
+    "flowtype"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "node/exports-style": "error",
+    "node/no-deprecated-api": "error",
+    "node/no-missing-require": "error",
+    "node/no-unpublished-bin": "error",
+    "node/no-unpublished-require": "error",
+    "node/process-exit-as-throw": "error",
+    "node/shebang": "error"
+  },
+  "settings": {
+    "flowtype": {
+        "onlyFilesWithFlowAnnotation": true
+    }
+  },
+}

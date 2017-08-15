@@ -1,0 +1,10 @@
+---
+- hosts: centos
+  user: root
+  become: yes
+  tasks:
+    # Install Docker
+    - name: Install Docker
+      shell: "curl -fsSL https://get.docker.com/ | sh"
+      args:
+        creates: /usr/bin/docker

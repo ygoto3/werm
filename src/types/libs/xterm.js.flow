@@ -1,0 +1,24 @@
+type xterm$Size = {
+  cols: number;
+  rows: number;
+};
+
+type addonName = 
+  'fit';
+
+interface xterm$Term {
+  static loadAddon(string): void;
+  textarea: HTMLTextAreaElement;
+  constructor(): xterm$Term;
+  open(HTMLElement, boolean): void;
+  write(any): void;
+  fit(any): void;
+  on('data', (data: string) => void): void;
+  on('resize', (size: xterm$Size) => void): void;
+}
+
+declare module 'xterm' {
+  declare type Size = xterm$Size;
+  declare type $Term = xterm$Term;
+  declare module.exports: Class<xterm$Term>;
+}

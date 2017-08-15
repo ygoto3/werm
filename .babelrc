@@ -1,0 +1,25 @@
+{
+  "presets": ["import-export", "react"],
+  "plugins": [
+    "add-module-exports",
+    "transform-flow-strip-types",
+    "transform-object-rest-spread"
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "flow-react-proptypes",
+      ]
+    },
+    "server": {
+      "plugins": [
+        [
+          "css-modules-transform", {
+            "generateScopedName": "[name]__[local]___[hash:base64:5]",
+            "extensions": [".css"]
+          }
+        ]
+      ]
+    }
+  }
+}

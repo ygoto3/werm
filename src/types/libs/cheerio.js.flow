@@ -1,0 +1,13 @@
+type cheerio$Dom = (selector: string) => cheerio$Object;
+
+interface cheerio$Object {
+  text(): string;
+  length: number;
+}
+
+declare module 'cheerio' {
+  declare type $Dom = cheerio$Dom;
+  declare type $Object = cheerio$Object;
+
+  declare function load(html: string | Function): cheerio$Dom;
+}

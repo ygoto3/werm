@@ -1,0 +1,24 @@
+version: '2'
+services:
+  werm-nginx:
+    image: nginx:1.13.3-alpine
+    ports:
+      - "80:80"
+    links:
+      - "werm-web:werm-web"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    tty: true
+    stdin_open: true
+    privileged: true
+  werm-web:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/Dockerfile_alpine
+    image: werm-web
+    tty: true
+    stdin_open: true
+    privileged: true
+    environment:
+      - "WERM_USER_NAME=${WERM_USER_NAME}"
+      - "WERM_USER_PASS=${WERM_USER_PASS}"

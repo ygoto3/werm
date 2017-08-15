@@ -1,0 +1,25 @@
+declare module 'pty.js' {
+  declare type Term = {
+    on(event: string, Function): void;
+    write(any): void;
+    resize(cols: number, rows: number): void;
+    destroy(): void;
+  };
+
+  declare type File = string;
+
+  declare type Args = string[];
+
+  declare type Opt = {
+    name: string;
+    cols?: number;
+    rows?: number;
+    uid?: number;
+    gid?: number;
+    env?: { [key: string]: string };
+    cwd?: string;
+    resume?: boolean;
+  }
+
+  declare function spawn(file: File, args: Args, opt: Opt): Term;
+}

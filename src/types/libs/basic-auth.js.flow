@@ -1,0 +1,11 @@
+import type { $Request } from 'express';
+
+type basicAuth$User = {
+  name: string;
+  pass: string;
+};
+
+declare module 'basic-auth' {
+  declare type User = basicAuth$User;
+  declare module.exports: (req: $Request) => basicAuth$User;
+}

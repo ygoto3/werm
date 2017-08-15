@@ -1,0 +1,32 @@
+FROM centos:7
+
+# Upgrading system
+RUN yum -y clean all
+RUN yum -y distro-sync
+RUN yum -y update
+RUN yum -y upgrade
+
+# install build-essential
+RUN yum install -y gcc gcc-c++ make
+
+# install openssh
+RUN yum install -y openssh openssh-clients
+
+# install nodejs
+RUN curl --silent --location https://rpm.nodesource.com/setup_8.x | bash - \
+  && yum install -y nodejs \
+  && npm i yarn@latest -g 
+
+WORKDIR /app
+
+RUN mkdir build
+
+COPY ../../build /app/build
+COPY ../../package.json /app
+
+RUN yarn
+
+WORKDIR /workspace
+
+EXPOSE 5000
+CMD ["node", "/app/build/app.js"]

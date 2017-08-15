@@ -1,0 +1,32 @@
+FROM alpine:3.6
+
+RUN apk --no-cache add \
+    # install build-essential
+    alpine-sdk \
+    # install Node.js 
+    nodejs \
+    nodejs-npm \
+    # install Python2 for node-gyp
+    python \
+    # install ssh client
+    openssh-client \
+    && npm i yarn@latest -g
+
+COPY ./src /app/src
+COPY ./config /app/config
+COPY ./webpack.config.js /app/webpack.config.js
+COPY ./.babelrc /app/.babelrc
+COPY ./package.json /app
+COPY ./yarn.lock /app
+
+WORKDIR /app
+
+RUN yarn \
+    && yarn build
+
+RUN ls | grep -v -E '^build$' | grep -v -E '^node_modules$' | xargs rm -r
+
+WORKDIR /workspace
+
+EXPOSE 5000
+CMD ["node", "/app/build/app.js"]

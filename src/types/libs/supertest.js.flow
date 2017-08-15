@@ -1,0 +1,14 @@
+interface supertest$Supertest {
+  get(path: string): supertest$Response;
+}
+
+interface supertest$Response {
+  expect(status: number): Promise<Response>;
+}
+
+declare module 'supertest' {
+  declare type Supertest = supertest$Supertest;
+  declare type Response = supertest$Response;
+
+  declare module.exports: (server: Server) => supertest$Supertest;
+}

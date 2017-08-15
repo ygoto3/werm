@@ -1,0 +1,71 @@
+{
+  "name": "werm",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "repository": {},
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/app.js",
+    "build": "yarn build:server && yarn build:client",
+    "build:server": "mkdir -p build && BABEL_ENV=server babel src --out-dir build --source-maps",
+    "build:client": "webpack",
+    "test": "jest",
+    "lint": "eslint src",
+    "type": "flow",
+    "precommit": "lint-staged",
+    "prepush": "yarn test"
+  },
+  "dependencies": {
+    "basic-auth": "^1.1.0",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "pty.js": "^0.3.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "socket.io": "^2.0.3",
+    "xterm": "^2.9.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-css-modules-transform": "^1.2.7",
+    "babel-plugin-flow-react-proptypes": "^4.1.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-import-export": "^1.0.2",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
+    "eslint": "^4.4.1",
+    "eslint-plugin-flowtype": "^2.35.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-react": "^7.2.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "flow-bin": "^0.52.0",
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "jest-enzyme": "^3.7.0",
+    "lint-staged": "^4.0.3",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^10.0.0",
+    "postcss-loader": "^2.0.6",
+    "react-test-renderer": "^15.6.1",
+    "style-loader": "^0.18.2",
+    "supertest": "^3.0.0",
+    "webpack": "^3.5.3"
+  },
+  "jest": {
+    "transform": {
+      "\\.js$": "<rootDir>/node_modules/babel-jest",
+      "\\.css$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
+  }
+}
