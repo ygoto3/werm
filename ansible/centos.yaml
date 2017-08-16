@@ -2,9 +2,30 @@
 - hosts: centos
   user: root
   become: yes
+  vars:
+    yum_packages:
+      - { name: epel-release }
+      - { name: git }
+      - { name: python-pip }
+    python_packages:
+      - { name: docker-compose }
   tasks:
+    # yum
+    - name: Install yum packages
+      yum: name={{ item.name }} state=installed
+      with_items: yum_packages
+
+    # Upgrade all yum packages
+    - name: Upgrade all packages
+      yum: name='*' state=latest
+
     # Install Docker
     - name: Install Docker
       shell: "curl -fsSL https://get.docker.com/ | sh"
       args:
         creates: /usr/bin/docker
+
+    # Install Python packages
+    - name: Install Python packages
+      pip: name={{ item.name }}
+      with_items: python_packages
