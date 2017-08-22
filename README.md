@@ -7,6 +7,7 @@
 ## Requirement
 
 - Docker v17.06.0-ce~
+- Kubernetes v1.7~
 - GNU Make v3.82~
 
 ## Run
@@ -19,6 +20,8 @@ Set environment variables:
 - `WERM_USER_PASS`
   - User password for basic authentication along with `WERM_USER_NAME`
   - Specifying no user password means no basic authentication
+- `WERM_PROJECT_ID`
+  - Your GCP project ID if you deploy it to Google Cloud Platform
 
 Start Docker if you don't have Docker started
 
@@ -29,7 +32,10 @@ $ make start-docker
 Then
 
 ```sh
-$ make run
+$ make docker-build 
+$ make docker-push
+$ make create-deploy
+$ make create-svc
 ```
 
 ### Test
@@ -37,3 +43,4 @@ $ make run
 ```sh
 $ yarn test
 ```
+

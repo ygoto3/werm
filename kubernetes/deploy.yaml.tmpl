@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: werm-deploy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: werm
+    spec:
+      containers:
+        - name: werm-nginx
+          image: ${WERM_DOCKER_REGISTRY}/${WERM_PROJECT_ID}/nginx:latest
+          imagePullPolicy: ${WERM_IMAGE_PULL_POLICY}
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+        - name: werm-web
+          image: ${WERM_DOCKER_REGISTRY}/${WERM_PROJECT_ID}/web:latest
+          imagePullPolicy: ${WERM_IMAGE_PULL_POLICY}
+          ports:
+            - containerPort: 5000
+          env:
+            - name: WERM_USER_NAME
+              value: ${WERM_USER_NAME}
+            - name: WERM_USER_PASS
+              value: ${WERM_USER_PASS}
