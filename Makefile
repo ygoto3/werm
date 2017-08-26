@@ -55,7 +55,7 @@ create-svc:
 	kubectl create -f kubernetes/svc.yaml --record
 
 .PHONY: apply-svc
-create-svc:
+apply-svc:
 	kubectl apply -f kubernetes/svc.yaml --record
 
 .PHONY: docker-build
