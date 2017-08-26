@@ -58,15 +58,37 @@ create-svc:
 apply-svc:
 	kubectl apply -f kubernetes/svc.yaml --record
 
+.PHONY: update-deploy
+update-deploy: now := $(shell date '+%Y%m%d-%H%M%S')
+update-deploy: patch := '$(shell echo '{"spec":{"template":{"metadata":{"labels":{"updatedAt":"DATE"}}}}}' | sed -e "s/DATE/$(now)/g")'
+update-deploy:
+	kubectl patch deployment werm-deploy -p $(patch)
+
+.PHONY: docker-build-nginx
+docker-build-nginx:
+	docker build -t $(DOCKER_REGISTRY)/$(PROJECT_ID)/nginx -f dockerfiles/Dockerfile_nginx .
+
+.PHONY: docker-build-web
+docker-build-web:
+	docker build -t $(DOCKER_REGISTRY)/$(PROJECT_ID)/web -f dockerfiles/Dockerfile_alpine .
+
 .PHONY: docker-build
 docker-build:
-	docker build -t $(DOCKER_REGISTRY)/$(PROJECT_ID)/nginx -f dockerfiles/Dockerfile_nginx .
-	docker build -t $(DOCKER_REGISTRY)/$(PROJECT_ID)/web -f dockerfiles/Dockerfile_alpine .
+	$(MAKE) docker-build-nginx
+	$(MAKE) docker-build-web
+
+.PHONY: docker-push-nginx
+docker-push-nginx:
+	gcloud docker -- push $(DOCKER_REGISTRY)/$(PROJECT_ID)/nginx:latest
+
+.PHONY: docker-push-web
+docker-push-web:
+	gcloud docker -- push $(DOCKER_REGISTRY)/$(PROJECT_ID)/web:latest
 
 .PHONY: docker-push
 docker-push:
-	gcloud docker -- push $(DOCKER_REGISTRY)/$(PROJECT_ID)/nginx:latest
-	gcloud docker -- push $(DOCKER_REGISTRY)/$(PROJECT_ID)/web:latest
+	$(MAKE) docker-push-nginx
+	$(MAKE) docker-push-web
 
 .PHONY: compose-build
 build:
